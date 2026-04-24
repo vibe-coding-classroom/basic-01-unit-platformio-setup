@@ -1,0 +1,81 @@
+name: GitHub Classroom Autograding
+on: [push]
+
+permissions:
+  checks: write
+  actions: read
+  contents: read
+
+jobs:
+  build:
+    name: Autograding
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # 任務 1 驗證：檢查是否引用 Arduino.h
+      - name: Task 1 - Check Arduino.h Include
+        id: task-1
+        uses: education/autograding-command-grader@v1
+        with:
+          test-name: "Verify #include <Arduino.h>"
+          setup-command: ""
+          command: "grep -i \"#include <Arduino.h>\" src/main.cpp"
+          timeout: 10
+          max-score: 20
+
+      # 任務 2 驗證：檢查是否加入 ArduinoJson 依賴
+      - name: Task 2 - Check lib_deps
+        id: task-2
+        uses: education/autograding-command-grader@v1
+        with:
+          test-name: "Verify lib_deps ArduinoJson"
+          setup-command: ""
+          command: "grep -i \"lib_deps.*ArduinoJson\" platformio.ini"
+          timeout: 10
+          max-score: 30
+
+      # 任務 3a 驗證：檢查串口波特率
+      - name: Task 3a - Check monitor_speed
+        id: task-3a
+        uses: education/autograding-command-grader@v1
+        with:
+          test-name: "Verify monitor_speed"
+          setup-command: ""
+          command: "grep -i \"monitor_speed.*115200\" platformio.ini"
+          timeout: 10
+          max-score: 20
+
+      # 任務 3b 驗證：檢查多環境配置 [env:release]
+      - name: Task 3b - Check env:release
+        id: task-3b
+        uses: education/autograding-command-grader@v1
+        with:
+          test-name: "Verify [env:release]"
+          setup-command: ""
+          command: "grep -i \"\\[env:release\\]\" platformio.ini"
+          timeout: 10
+          max-score: 15
+
+      # 任務 3c 驗證：檢查燒錄速度
+      - name: Task 3c - Check upload_speed
+        id: task-3c
+        uses: education/autograding-command-grader@v1
+        with:
+          test-name: "Verify upload_speed"
+          setup-command: ""
+          command: "grep -i \"upload_speed.*921600\" platformio.ini"
+          timeout: 10
+          max-score: 15
+
+      # 總結評分
+      - name: Autograding Reporter
+        uses: education/autograding-grading-reporter@v1
+        env:
+          TASK-1_RESULTS: "${{steps.task-1.outputs.result}}"
+          TASK-2_RESULTS: "${{steps.task-2.outputs.result}}"
+          TASK-3A_RESULTS: "${{steps.task-3a.outputs.result}}"
+          TASK-3B_RESULTS: "${{steps.task-3b.outputs.result}}"
+          TASK-3C_RESULTS: "${{steps.task-3c.outputs.result}}"
+        with:
+          runners: task-1,task-2,task-3a,task-3b,task-3c
