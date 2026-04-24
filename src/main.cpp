@@ -1,3 +1,4 @@
+#include <Arduino.h>
 // 任務 1：請在此修正編譯錯誤（提示：PlatformIO 的 C++ 需要手動引用某個標頭檔）
 
 void setup() {
@@ -16,5 +17,5 @@ void loop() {
   delay(1000);
   
   // 任務 2 測試：如果 ArduinoJson 引用成功，取消下行註解應可編譯
-  // StaticJsonDocument<200> doc;
+  StaticJsonDocument<200> doc;
 }
