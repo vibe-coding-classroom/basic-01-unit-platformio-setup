@@ -1,5 +1,3 @@
-Viewed basic-01-unit-platformio-setup.html:1-402
-
 針對 **`basic-01-unit-platformio-setup` (VS Code + PlatformIO 環境搭建)** 單元，這是學員從「興趣玩家」轉向「專業開發者」的轉折點。它要求學員不僅是安裝軟體，更要理解 **現代軟體工程的專案管理思維**，包括依賴管理 (Dependency Management) 與 多環境配置 (Cloud-like Environments)。
 
 以下是在 **GitHub Classroom** 部署其作業 (Assignments) 的具體建議：
