@@ -13,58 +13,58 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 任務 1 驗證：檢查是否引用 Arduino.h
+      # 任務 1 驗證：檢查是否引用 Arduino.h (排除註解行)
       - name: Task 1 - Check Arduino.h Include
         id: task-1
         uses: education/autograding-command-grader@v1
         with:
           test-name: "Verify #include <Arduino.h>"
           setup-command: ""
-          command: "grep -i \"#include <Arduino.h>\" src/main.cpp"
+          command: "grep -v '^//' src/main.cpp | grep -i '#include <Arduino.h>'"
           timeout: 10
           max-score: 20
 
-      # 任務 2 驗證：檢查是否加入 ArduinoJson 依賴
+      # 任務 2 驗證：檢查是否加入 ArduinoJson 依賴 (排除註解行)
       - name: Task 2 - Check lib_deps
         id: task-2
         uses: education/autograding-command-grader@v1
         with:
           test-name: "Verify lib_deps ArduinoJson"
           setup-command: ""
-          command: "grep -i \"lib_deps.*ArduinoJson\" platformio.ini"
+          command: "grep -v '^;' platformio.ini | grep -i 'lib_deps' | grep -i 'ArduinoJson'"
           timeout: 10
           max-score: 30
 
-      # 任務 3a 驗證：檢查串口波特率
+      # 任務 3a 驗證：檢查串口波特率 (排除註解行)
       - name: Task 3a - Check monitor_speed
         id: task-3a
         uses: education/autograding-command-grader@v1
         with:
           test-name: "Verify monitor_speed"
           setup-command: ""
-          command: "grep -i \"monitor_speed.*115200\" platformio.ini"
+          command: "grep -v '^;' platformio.ini | grep -i 'monitor_speed.*115200'"
           timeout: 10
           max-score: 20
 
-      # 任務 3b 驗證：檢查多環境配置 [env:release]
+      # 任務 3b 驗證：檢查多環境配置 [env:release] (必須是行首的標籤)
       - name: Task 3b - Check env:release
         id: task-3b
         uses: education/autograding-command-grader@v1
         with:
           test-name: "Verify [env:release]"
           setup-command: ""
-          command: "grep -i \"\\[env:release\\]\" platformio.ini"
+          command: "grep '^\\s*\\[env:release\\]' platformio.ini"
           timeout: 10
           max-score: 15
 
-      # 任務 3c 驗證：檢查燒錄速度
+      # 任務 3c 驗證：檢查燒錄速度 (排除註解行)
       - name: Task 3c - Check upload_speed
         id: task-3c
         uses: education/autograding-command-grader@v1
         with:
           test-name: "Verify upload_speed"
           setup-command: ""
-          command: "grep -i \"upload_speed.*921600\" platformio.ini"
+          command: "grep -v '^;' platformio.ini | grep -i 'upload_speed.*921600'"
           timeout: 10
           max-score: 15
 
